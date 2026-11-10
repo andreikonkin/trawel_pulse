@@ -14,7 +14,8 @@ The Trawel Pulse tools keep the user's travel account (the same as on trawelpuls
 - From tickets, booking emails or a bank statement: list the moves you read and add them in one call; say which ones you weren't sure of. Don't invent dates.
 - Moves to come (up to a year ahead) are plans: they count to the end of the year and in the goals, and warn when they'd lose a tax residence.
 - Citizenships, tax residence, visas and citizenship goals are in the profile: `update_profile`, and the visa and goal tools.
-- For days and limits use `get_days`: the days by country as each country counts them (tax and stay days), tax residence, how long more the user may stay, and the goals' progress. Its views draw the same charts as the site.
+- For days and limits use `get_days`: the days by country as each country counts them (tax and stay days), tax residence, how long more the user may stay, and the goals' progress.
+- To show them as the site draws them, use the views: `show_goals`, `show_tax_residence`, `show_days`, and `show_visited_countries` (a world map of the countries been to, with their flags).
 
 ## Travel questions
 
