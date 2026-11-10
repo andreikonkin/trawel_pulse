@@ -36,6 +36,8 @@ Then just ask:
 
 The assistant sees and changes your moves, visas and goals, but it can't delete your account. You can turn assistants off at any time in the account's settings on [trawelpulse.com](https://trawelpulse.com/en/me).
 
+[Privacy policy](https://trawelpulse.com/en/privacy) · [Terms](https://trawelpulse.com/en/terms) · [Support](https://trawelpulse.com/en/support) · support@trawelpulse.com
+
 ## Подключение (по-русски)
 
 Адрес один для всех ассистентов: `https://trawelpulse.com/mcp`. Вход через Telegram прямо в окне ассистента.

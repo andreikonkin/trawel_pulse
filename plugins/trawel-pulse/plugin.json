@@ -31,13 +31,14 @@
           "Write"
         ],
         "websiteURL": "https://trawelpulse.com",
+        "privacyPolicyURL": "https://trawelpulse.com/en/privacy",
         "termsOfServiceURL": "https://trawelpulse.com/en/terms",
         "defaultPrompt": [
           "Add my flights from these ticket emails.",
           "How many more days may I stay in the UK this year?",
           "When can I apply for Cypriot citizenship?"
         ],
-        "brandColor": "#1E6BFF",
+        "brandColor": "#0052FF",
         "composerIcon": "./assets/icon.png",
         "logo": "./assets/icon.png"
       }
