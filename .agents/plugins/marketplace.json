@@ -1,0 +1,12 @@
+{
+  "name": "trawel-pulse",
+  "interface": { "displayName": "Trawel Pulse" },
+  "plugins": [
+    {
+      "name": "trawel-pulse",
+      "source": { "source": "local", "path": "./plugins/trawel-pulse" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Travel"
+    }
+  ]
+}

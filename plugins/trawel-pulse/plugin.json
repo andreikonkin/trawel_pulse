@@ -1,0 +1,46 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "trawel-pulse",
+  "version": "1.0.0",
+  "description": "Your travel account in the assistant: moves, days by country, tax residence, citizenship goals and visas, plus travel safety, visa rules, emergency numbers and cheap flights.",
+  "author": {
+    "name": "Trawel Pulse",
+    "url": "https://trawelpulse.com"
+  },
+  "homepage": "https://trawelpulse.com",
+  "repository": "https://github.com/andreikonkin/trawel_pulse",
+  "keywords": [
+    "travel",
+    "tax residence",
+    "citizenship",
+    "visas",
+    "safety",
+    "flights",
+    "digital nomad"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Trawel Pulse",
+        "shortDescription": "Days by country, tax residence and travel safety",
+        "longDescription": "Add your trips from tickets or a statement and see the days by country as each country counts them, your tax residence and how long more you may stay, your progress to citizenship and your visas. Ask about a country's safety, visa rules for your passport, emergency numbers, natural disasters and the cheapest flights.",
+        "developerName": "Trawel Pulse",
+        "category": "Travel",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://trawelpulse.com",
+        "termsOfServiceURL": "https://trawelpulse.com/en/terms",
+        "defaultPrompt": [
+          "Add my flights from these ticket emails.",
+          "How many more days may I stay in the UK this year?",
+          "When can I apply for Cypriot citizenship?"
+        ],
+        "brandColor": "#1E6BFF",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png"
+      }
+    }
+  }
+}

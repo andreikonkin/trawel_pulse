@@ -1,0 +1,15 @@
+{
+  "name": "trawel-pulse",
+  "owner": { "name": "Trawel Pulse" },
+  "metadata": { "description": "Trawel Pulse for Claude: your travel account and travel safety." },
+  "plugins": [
+    {
+      "name": "trawel-pulse",
+      "source": "./plugins/trawel-pulse",
+      "description": "Your travel account in Claude: moves, days by country, tax residence, citizenship goals and visas, plus travel safety, visa rules, emergency numbers and cheap flights.",
+      "version": "1.0.0",
+      "homepage": "https://trawelpulse.com",
+      "category": "travel"
+    }
+  ]
+}

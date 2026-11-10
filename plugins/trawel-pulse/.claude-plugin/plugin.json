@@ -1,0 +1,19 @@
+{
+  "name": "trawel-pulse",
+  "version": "1.0.0",
+  "description": "Your travel account in Claude: moves, days by country, tax residence, citizenship goals and visas, plus travel safety, visa rules, emergency numbers and cheap flights.",
+  "author": {
+    "name": "Trawel Pulse",
+    "url": "https://trawelpulse.com"
+  },
+  "homepage": "https://trawelpulse.com",
+  "repository": "https://github.com/andreikonkin/trawel_pulse",
+  "keywords": [
+    "travel",
+    "tax residence",
+    "citizenship",
+    "visas",
+    "safety",
+    "flights"
+  ]
+}
