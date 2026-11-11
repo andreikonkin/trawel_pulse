@@ -16,5 +16,9 @@
     "visas",
     "safety",
     "flights"
-  ]
+  ],
+  "documentationUrl": "https://trawelpulse.com/en/bot#ai",
+  "privacyPolicyUrl": "https://trawelpulse.com/en/privacy",
+  "termsOfServiceUrl": "https://trawelpulse.com/en/terms",
+  "supportUrl": "https://trawelpulse.com/en/support"
 }
