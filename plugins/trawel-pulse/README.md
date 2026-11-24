@@ -1,5 +1,7 @@
 # Trawel Pulse
 
+Developed and published by Andrei Konkin. Trawel Pulse is the product name.
+
 Your travel account in Claude. Tell Claude about your trips, or paste ticket emails or a bank statement, and it keeps them in your Trawel Pulse account. From them it counts the days in each country as that country counts them, your tax residence and how long more you may stay, your progress to citizenship by residence and where you've been, and draws them right in the chat. It also answers travel questions: a country's safety level from several governments' advisories, visa rules for your passport, emergency numbers, natural disasters, recent changes and the cheapest flights.
 
 ## What's in the plugin

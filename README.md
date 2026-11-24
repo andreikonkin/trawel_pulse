@@ -1,5 +1,7 @@
 # Trawel Pulse for ChatGPT and Claude
 
+Developed and published by Andrei Konkin. Trawel Pulse is the product name.
+
 [Trawel Pulse](https://trawelpulse.com) in your AI assistant:
 
 - **Your travel account.** Add trips from tickets, booking emails or a bank statement and see:

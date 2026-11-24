@@ -1,10 +1,10 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "trawel-pulse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Your travel account in the assistant: moves, days by country, tax residence, citizenship goals and visas, plus travel safety, visa rules, emergency numbers and cheap flights.",
   "author": {
-    "name": "Trawel Pulse",
+    "name": "Andrei Konkin",
     "url": "https://trawelpulse.com"
   },
   "homepage": "https://trawelpulse.com",
@@ -23,15 +23,16 @@
     "com.openai": {
       "interface": {
         "displayName": "Trawel Pulse",
-        "shortDescription": "Days by country, tax residence and travel safety",
+        "shortDescription": "Days abroad, tax and safety",
         "longDescription": "Add your trips from tickets or a statement and see the days by country as each country counts them, your tax residence and how long more you may stay, your progress to citizenship and your visas. Ask about a country's safety, visa rules for your passport, emergency numbers, natural disasters and the cheapest flights.",
-        "developerName": "Trawel Pulse",
+        "developerName": "Andrei Konkin",
         "category": "Travel",
         "capabilities": [
           "Read",
           "Write"
         ],
         "websiteURL": "https://trawelpulse.com",
+        "supportURL": "https://trawelpulse.com/en/support",
         "privacyPolicyURL": "https://trawelpulse.com/en/privacy",
         "termsOfServiceURL": "https://trawelpulse.com/en/terms",
         "defaultPrompt": [
@@ -42,6 +43,59 @@
         "brandColor": "#0052FF",
         "composerIcon": "./assets/icon.png",
         "logo": "./assets/icon.png"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Adds a trip to the account as its moves, there and back.",
+              "prompt": "Add my trip: I flew from Larnaca to Tbilisi on 10 March 2026 and came back on 24 March 2026.",
+              "tools_triggered": "add_moves",
+              "expected_behavior": "Adds two moves, CY to GE on 2026-03-10 and GE to CY on 2026-03-24, and confirms them; the days in Cyprus and Georgia for 2026 change accordingly. It may first call list_moves to see the moves already there."
+            },
+            {
+              "description": "Shows tax residence this year and how long more one may stay in the UK.",
+              "prompt": "Am I a tax resident of Cyprus this year, and how long more can I stay in the UK?",
+              "tools_triggered": "show_tax_residence",
+              "expected_behavior": "Shows the view of tax residence: the days in Cyprus this year against the threshold, the days the plans add by the year's end, and for the UK how many more days the visa (until 3 January 2027) and the tax rules allow. get_days may be used instead of the view."
+            },
+            {
+              "description": "Shows the progress to citizenship by residence.",
+              "prompt": "Show my progress to Cypriot citizenship.",
+              "tools_triggered": "show_goals",
+              "expected_behavior": "Shows the fast-track goal (4 years, Greek B1): the days counted of 1460, the 12-month periods with their percentages, why each period counts as it does, and the earliest day to apply."
+            },
+            {
+              "description": "Shows the countries been to on a world map.",
+              "prompt": "Show the countries I've been to on a map.",
+              "tools_triggered": "show_visited_countries",
+              "expected_behavior": "Shows how many countries of all have been visited, a world map with them filled in and their flags; tapping a flag shows the days there."
+            },
+            {
+              "description": "Answers a travel question with the public tools: a country's safety and the visa rule for a passport.",
+              "prompt": "Is Thailand safe to travel to right now, and do I need a visa with a Russian passport?",
+              "tools_triggered": "country_safety, visa_requirements",
+              "expected_behavior": "Gives Thailand's safety level by several governments' advisories with a short summary and links to them, and the visa rule for a Russian passport (the visa-free stay's length)."
+            }
+          ],
+          "negative": [
+            {
+              "description": "A question outside travel accounts and travel safety: no Trawel Pulse tool should be called.",
+              "prompt": "What's the weather in Limassol tomorrow?"
+            },
+            {
+              "description": "A creative request unrelated to the plugin: no Trawel Pulse tool should be called.",
+              "prompt": "Write a short poem about travelling."
+            },
+            {
+              "description": "Deleting the account isn't possible through the plugin: no tool should be called; the assistant points to the account's settings on trawelpulse.com.",
+              "prompt": "Delete my Trawel Pulse account."
+            }
+          ]
+        }
+      },
+      "publication": {
+        "release_notes": "1.0.1: updated publisher metadata to Andrei Konkin to match the individual developer identity used for submission. Trawel Pulse remains the product name. Includes the current travel-account skill."
       }
     }
   }
