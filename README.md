@@ -1,8 +1,10 @@
-# Trawel Pulse for ChatGPT and Claude
+# Trawel Pulse for AI assistants
 
 Developed and published by Andrei Konkin. Trawel Pulse is the product name.
 
-[Trawel Pulse](https://trawelpulse.com) in your AI assistant:
+[Trawel Pulse](https://trawelpulse.com) makes your travel account and destination
+tools available to AI assistants through a remote MCP server.
+Connect a client that supports Streamable HTTP and OAuth with PKCE to use:
 
 - **Your travel account.** Add trips from tickets, booking emails or a bank statement and see:
   - the days by country, as each country counts them;
@@ -10,16 +12,16 @@ Developed and published by Andrei Konkin. Trawel Pulse is the product name.
   - your progress to citizenship;
   - your visas.
 
-  The account is the same as on trawelpulse.com, and the charts are drawn right in the chat.
+  The account is the same as on trawelpulse.com. Clients with MCP Apps support can show the calendar, map and charts in the chat; other clients can use the text and structured results.
 - **Travel questions.** A country's safety level, visa rules for your passport, emergency numbers, natural disasters, recent changes and the cheapest flights.
 
-Every assistant connects to one address:
+Compatible MCP clients connect to one address:
 
 ```
 https://trawelpulse.com/mcp
 ```
 
-You sign in with Telegram in the assistant's own window, and nothing else is needed.
+You sign in with Telegram on trawelpulse.com through the client's OAuth flow, then approve access to your travel account.
 
 ## MCP integration documentation
 
@@ -35,6 +37,12 @@ Exact input schemas and annotations: [tool schema snapshot](docs/mcp-tools.json)
 | **ChatGPT** | Plugins → + → Add custom MCP server → paste the address, OAuth → Create as a plugin |
 | **Claude Code** | `/plugin marketplace add andreikonkin/trawel_pulse`, then `/plugin install trawel-pulse@trawel-pulse` |
 | **Codex** | `codex plugin marketplace add andreikonkin/trawel_pulse` |
+| **Other MCP clients** | Add the endpoint above as a remote Streamable HTTP server and use OAuth with PKCE. See the [integration reference](docs/mcp.md) for discovery and client-registration requirements. |
+
+Tested with ChatGPT and Claude. Integration preparation for
+Gemini and Meta Muse is in progress; their OAuth flows, tool execution and UI
+rendering still need platform-specific validation. Public directory availability
+depends on each platform's review and publication process.
 
 Then just ask:
 
@@ -48,11 +56,14 @@ The assistant sees and changes your moves, visas and goals, but it can't delete 
 
 ## Подключение (по-русски)
 
-Адрес один для всех ассистентов: `https://trawelpulse.com/mcp`. Вход через Telegram прямо в окне ассистента.
+Адрес MCP-сервера: `https://trawelpulse.com/mcp`. Подходит клиентам с поддержкой Streamable HTTP и OAuth с PKCE. Вход — через Telegram на сайте, затем разрешение доступа ассистенту.
 
 - **Claude:** Настройки → Коннекторы → Добавить свой коннектор → вставьте адрес.
 - **ChatGPT:** Plugins → + → Add custom MCP server → вставьте адрес, вход OAuth → Create as a plugin.
 - **Claude Code:** `/plugin marketplace add andreikonkin/trawel_pulse`, затем `/plugin install trawel-pulse@trawel-pulse`.
+- **Другие MCP-клиенты:** добавьте адрес как удалённый сервер Streamable HTTP и выберите OAuth. Требования к подключению — в [справочнике MCP](docs/mcp.md).
+
+Подключение проверено с ChatGPT и Claude. Интеграции Gemini и Meta Muse готовятся; работу OAuth, инструментов и виджетов ещё предстоит проверить на этих платформах. Календарь, карта и графики внутри чата доступны в клиентах с поддержкой MCP Apps.
 
 Отключить ассистентов можно в настройках кабинета на сайте.
 
