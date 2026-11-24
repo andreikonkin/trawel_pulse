@@ -1,0 +1,962 @@
+{
+  "cacheScope": "public",
+  "tools": [
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Add a goal"
+      },
+      "description": "Adds a goal of citizenship, a preset or the user's own.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "country": {
+            "description": "custom: the country",
+            "type": "string"
+          },
+          "days": {
+            "description": "custom: the days needed there",
+            "type": "integer"
+          },
+          "last_year_max": {
+            "description": "custom: the most days away in the last year, 0 for no limit",
+            "type": "integer"
+          },
+          "last_year_mode": {
+            "description": "Cyprus: the last year's days away up to 90, deduct (default) or ignore",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "preset": {
+            "description": "CY (Cyprus, 7 of 10 years), CYHQB1 (Cyprus fast track, 4 years, Greek B1), CYHQA2 (Cyprus fast track, 5 years, Greek A2), GB (the UK, 5 years), GB3 (the UK, a British citizen's spouse, 3 years), CA (Canada), US (the US, 5 years), US3 (the US, a citizen's spouse, 3 years); years of lawful residence from the permit (since): PT (Portugal, 10), PT7 (Portugal, EU and CPLP nationals, 7), ES (Spain, 10), ES2 (Spain, Ibero-American and some others, 2), DE (Germany, 5), FR (France, 5), IT (Italy, 10), IT4 (Italy, EU nationals, 4), NL (the Netherlands, 5), BE (Belgium, 5), AT (Austria, 10), GR (Greece, 7), IE (Ireland, 5 of 9), FI (Finland, 8), SE (Sweden, 8), PL (Poland, 3 with permanent residence), CZ (Czechia, 5), AU (Australia, 4), NZ (New Zealand, 1350 days in 5), RS (Serbia, 3), GE (Georgia, 10), AM (Armenia, 3), TR (Turkey, 5), AR (Argentina, 2), BR (Brazil, 4), MX (Mexico, 5), MX2 (Mexico, Latin American and Iberian nationals, 2), UY3 (Uruguay, with a family, 3), UY5 (Uruguay, 5), PY (Paraguay, 3); or custom",
+            "type": "string"
+          },
+          "prev_mode": {
+            "description": "Cyprus: a year before away over 90 days, over (only the days over 90 off, default) or full (all of them off)",
+            "type": "string"
+          },
+          "since": {
+            "description": "the day the residence that counts began (residence permit, green card), YYYY-MM-DD; none: the first move",
+            "type": "string"
+          },
+          "stretch_max": {
+            "description": "custom: the most days away in a row, a longer absence breaking the residence (it counts again from the return), 0 for no limit",
+            "type": "integer"
+          },
+          "year_absent_max": {
+            "description": "custom: the most days away in any year of them, 0 for no limit",
+            "type": "integer"
+          },
+          "years": {
+            "description": "custom: in how many years",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "preset"
+        ],
+        "type": "object"
+      },
+      "name": "add_goal"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Add moves"
+      },
+      "description": "Adds moves (200 at most a call); each is checked on its own, those with an error are left out and told.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "moves": {
+            "description": "the moves to add, any order",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "arrived": {
+                  "description": "the day arrived, YYYY-MM-DD, if not the day left (a night flight: the next day)",
+                  "type": "string"
+                },
+                "departed": {
+                  "description": "the day left, YYYY-MM-DD",
+                  "type": "string"
+                },
+                "from": {
+                  "description": "the country left: ISO 3166-1 alpha-2 code or name",
+                  "type": "string"
+                },
+                "from_city": {
+                  "description": "the city left, optional",
+                  "type": "string"
+                },
+                "note": {
+                  "description": "a note, such as the flight number, optional",
+                  "type": "string"
+                },
+                "to": {
+                  "description": "the country arrived in: ISO 3166-1 alpha-2 code or name",
+                  "type": "string"
+                },
+                "to_city": {
+                  "description": "the city arrived in, optional",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "departed",
+                "from",
+                "to"
+              ],
+              "type": "object"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          }
+        },
+        "required": [
+          "moves"
+        ],
+        "type": "object"
+      },
+      "name": "add_moves"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Add a visa"
+      },
+      "description": "Adds a visa the user holds.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "country": {
+            "description": "the country, ISO 3166-1 alpha-2 code or name, or SCHENGEN for a Schengen visa",
+            "type": "string"
+          },
+          "kind": {
+            "description": "its kind, such as C, D, work, student, optional",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "until": {
+            "description": "the last day it's valid, YYYY-MM-DD",
+            "type": "string"
+          }
+        },
+        "required": [
+          "country",
+          "until"
+        ],
+        "type": "object"
+      },
+      "name": "add_visa"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Cheapest flights"
+      },
+      "description": "The cheapest flight to a country (or one of its cities) from the cities given, with its link to book on Aviasales, and the five cheapest days to leave. Prices come from Aviasales searches of the last days and may differ when booking.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "city": {
+            "description": "a city in it to fly to, its IATA city code, optional",
+            "type": "string"
+          },
+          "currency": {
+            "description": "eur, usd or rub; none: rub for ru, eur for en",
+            "type": "string"
+          },
+          "date_from": {
+            "description": "the first day to leave, YYYY-MM-DD; with date_to, a month at most; none: the next three months",
+            "type": "string"
+          },
+          "date_to": {
+            "description": "the last day to leave, YYYY-MM-DD",
+            "type": "string"
+          },
+          "direct_only": {
+            "description": "non-stop flights only",
+            "type": "boolean"
+          },
+          "from": {
+            "description": "where from: IATA city codes, comma-separated (LCA,PFO), or a country's code for its biggest cities (CY)",
+            "type": "string"
+          },
+          "lang": {
+            "description": "ru or en",
+            "type": "string"
+          },
+          "to": {
+            "description": "the country to fly to, code or name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "to",
+          "from"
+        ],
+        "type": "object"
+      },
+      "name": "cheapest_flights"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "All countries' safety"
+      },
+      "description": "Every country's overall safety level and each government's, the most dangerous first; for questions across countries (where it's safe, which are at level 4).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "ru or en",
+            "type": "string"
+          },
+          "min_level": {
+            "description": "only countries at this overall level or above, 1-4",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "name": "countries_safety"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Country safety"
+      },
+      "description": "A country's travel safety as Trawel Pulse shows it: the overall level 1-4 (1 normal precautions, 2 increased caution, 3 reconsider travel, 4 do not travel) and each government's (the US, UK, Israel, Germany, Austria, the Netherlands, Japan, South Korea, Taiwan), the US embassy's alerts, health and aviation notices, natural disasters there now, the latest changes, a summary of all the sources, the local laws and the facts (capital, currency, time, plugs, driving side, calling code, climate). Link: https://trawelpulse.com/{lang}/countries/{code}.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "country": {
+            "description": "the country: ISO 3166-1 alpha-2 code or name, a resort or city works too (Phuket, Bali)",
+            "type": "string"
+          },
+          "lang": {
+            "description": "ru or en, for the summary and the local laws",
+            "type": "string"
+          }
+        },
+        "required": [
+          "country"
+        ],
+        "type": "object"
+      },
+      "name": "country_safety"
+    },
+    {
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Delete a move"
+      },
+      "description": "Deletes a move by its id.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "the move's id, as the list of moves gives it",
+            "type": "integer"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "name": "delete_move"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Emergency numbers"
+      },
+      "description": "A country's emergency numbers (police, ambulance, fire, the general one) and the citizenship's embassy or consulate there, with its address and phones.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "citizenship": {
+            "description": "for one's embassy there, code or name; none: the user's first citizenship",
+            "type": "string"
+          },
+          "country": {
+            "description": "the country one is in or goes to, code or name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "country"
+        ],
+        "type": "object"
+      },
+      "name": "emergency_numbers"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Find a city"
+      },
+      "description": "Cities with airports by a name or code, the biggest first, with their IATA city codes.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "ru or en",
+            "type": "string"
+          },
+          "query": {
+            "description": "a city's or an airport's name or code (Larnaca, LCA, Мюнхен)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      },
+      "name": "find_city"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Days and counts"
+      },
+      "description": "The counts as of today, as the account shows them: each year's days by country (days: for tax, by the country's rule; stay: there at all, as a visa counts them; planned: by the moves to come), how long more one may stay in each country this tax year (residence), the Schengen 90/180, Russia's 12 months, the UK's statutory residence test, the US substantial presence test, Israel's presumptions, the goals' progress in the profile's order (12-month periods back from the first day one may apply for Cyprus), the moves missing (gaps) and the countries been to.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "year": {
+            "description": "only this year's days by country, optional",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "name": "get_days"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Profile"
+      },
+      "description": "The user's profile: citizenships, tax residence and its rule, ties to the UK, US and Israel, visas and goals (visas and goals by their place in the list, from 0).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "name": "get_profile"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Moves"
+      },
+      "description": "The user's moves in order, each with its id and the days then spent where it went (stay_days, 0 for one to come).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "year": {
+            "description": "only the moves left in this year, optional",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "name": "list_moves"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "People"
+      },
+      "description": "The accounts other people opened to the user on trawelpulse.com (account sharing): each one's id and name, the parts open (moves, days, tax, visas, goals, or all) and whether the user may change them. The account tools take person to act on one of them.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "name": "list_people"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Natural disasters now"
+      },
+      "description": "The natural disasters going on now by GDACS (the UN and the European Commission): earthquakes, cyclones, floods, eruptions and fires with an orange or red alert, the countries they hit.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "name": "natural_disasters"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Recent changes"
+      },
+      "description": "What changed in the governments' travel advice lately: new levels and revised advice, by country and source.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "country": {
+            "description": "one country, code or name; none: all",
+            "type": "string"
+          },
+          "days": {
+            "description": "over how many days back, 7 by default",
+            "type": "integer"
+          },
+          "level_only": {
+            "description": "only changes of a level",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "name": "recent_changes"
+    },
+    {
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Remove a goal"
+      },
+      "description": "Removes the goal at its index.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "index": {
+            "description": "its place in the profile's list, from 0",
+            "type": "integer"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          }
+        },
+        "required": [
+          "index"
+        ],
+        "type": "object"
+      },
+      "name": "remove_goal"
+    },
+    {
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Remove a visa"
+      },
+      "description": "Removes the visa at its index.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "index": {
+            "description": "its place in the profile's list, from 0",
+            "type": "integer"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          }
+        },
+        "required": [
+          "index"
+        ],
+        "type": "object"
+      },
+      "name": "remove_visa"
+    },
+    {
+      "_meta": {
+        "openai/outputTemplate": "ui://trawelpulse/calendar.html",
+        "ui": {
+          "resourceUri": "ui://trawelpulse/calendar.html"
+        }
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Calendar of where one was"
+      },
+      "description": "Shows a year's calendar of where the user was each day, by their moves, as the account on the site draws it: each day in the colour and with the flag of its country, a day in two countries (a move landing the same day) half and half (from and to), the days to come (planned) paler, today framed, and the year's days in each country, as the account counts them (a day in two countries counts in both; a night flight's day of leaving counts for the country left, of landing for the one landed in). Gives the days as runs (from, to: where, or way [from, to] on a day in two countries, with the move's id) and the years with days (years).",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "the user's language for the view: ru or en",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "year": {
+            "description": "the year shown, optional (this year by default); years gives those with days",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "name": "show_calendar"
+    },
+    {
+      "_meta": {
+        "openai/outputTemplate": "ui://trawelpulse/account.html",
+        "ui": {
+          "resourceUri": "ui://trawelpulse/account.html"
+        }
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Days by year, as the account shows them"
+      },
+      "description": "Shows the days by country and year as the account draws them: for tax, there at all, and planned by the moves to come, all years and each year apart.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "the user's language for the view: ru or en",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "year": {
+            "description": "for the days by year: the year shown first, optional (all years by default)",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "name": "show_days"
+    },
+    {
+      "_meta": {
+        "openai/outputTemplate": "ui://trawelpulse/account.html",
+        "ui": {
+          "resourceUri": "ui://trawelpulse/account.html"
+        }
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Goals, as the account shows them"
+      },
+      "description": "Shows the user's goals of citizenship as the account on the site draws them: the days counted of those needed, year by year (for Cyprus, 12-month periods back from the first day one may apply, those to come planned) and why, the days away, the first day one may apply.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "the user's language for the view: ru or en",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "year": {
+            "description": "for the days by year: the year shown first, optional (all years by default)",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "name": "show_goals"
+    },
+    {
+      "_meta": {
+        "openai/outputTemplate": "ui://trawelpulse/account.html",
+        "ui": {
+          "resourceUri": "ui://trawelpulse/account.html"
+        }
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Tax residence, as the account shows it"
+      },
+      "description": "Shows the user's tax residence as the account draws it: the days of those that make one resident in each country followed (Russia's 12 months, Cyprus, the UK's tax year, the US test, Israel), and how long more one may stay in each country been to this year, by tax and by visa or visa-free stay.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "the user's language for the view: ru or en",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "year": {
+            "description": "for the days by year: the year shown first, optional (all years by default)",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "name": "show_tax_residence"
+    },
+    {
+      "_meta": {
+        "openai/outputTemplate": "ui://trawelpulse/account.html",
+        "ui": {
+          "resourceUri": "ui://trawelpulse/account.html"
+        }
+      },
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": true,
+        "title": "Where one has been, on a map"
+      },
+      "description": "Shows the countries the user has been to, by their moves up to today, on a world map as the account on the site draws it: how many of all the countries, the map with them filled in, their flags, and the days in each.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "lang": {
+            "description": "the user's language for the view: ru or en",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "year": {
+            "description": "for the days by year: the year shown first, optional (all years by default)",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "name": "show_visited_countries"
+    },
+    {
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Change a goal"
+      },
+      "description": "Puts a goal in place of the one at its index.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "country": {
+            "description": "custom: the country",
+            "type": "string"
+          },
+          "days": {
+            "description": "custom: the days needed there",
+            "type": "integer"
+          },
+          "index": {
+            "description": "the goal's place in the profile's list, from 0",
+            "type": "integer"
+          },
+          "last_year_max": {
+            "description": "custom: the most days away in the last year, 0 for no limit",
+            "type": "integer"
+          },
+          "last_year_mode": {
+            "description": "Cyprus: the last year's days away up to 90, deduct (default) or ignore",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "preset": {
+            "description": "CY (Cyprus, 7 of 10 years), CYHQB1 (Cyprus fast track, 4 years, Greek B1), CYHQA2 (Cyprus fast track, 5 years, Greek A2), GB (the UK, 5 years), GB3 (the UK, a British citizen's spouse, 3 years), CA (Canada), US (the US, 5 years), US3 (the US, a citizen's spouse, 3 years); years of lawful residence from the permit (since): PT (Portugal, 10), PT7 (Portugal, EU and CPLP nationals, 7), ES (Spain, 10), ES2 (Spain, Ibero-American and some others, 2), DE (Germany, 5), FR (France, 5), IT (Italy, 10), IT4 (Italy, EU nationals, 4), NL (the Netherlands, 5), BE (Belgium, 5), AT (Austria, 10), GR (Greece, 7), IE (Ireland, 5 of 9), FI (Finland, 8), SE (Sweden, 8), PL (Poland, 3 with permanent residence), CZ (Czechia, 5), AU (Australia, 4), NZ (New Zealand, 1350 days in 5), RS (Serbia, 3), GE (Georgia, 10), AM (Armenia, 3), TR (Turkey, 5), AR (Argentina, 2), BR (Brazil, 4), MX (Mexico, 5), MX2 (Mexico, Latin American and Iberian nationals, 2), UY3 (Uruguay, with a family, 3), UY5 (Uruguay, 5), PY (Paraguay, 3); or custom",
+            "type": "string"
+          },
+          "prev_mode": {
+            "description": "Cyprus: a year before away over 90 days, over (only the days over 90 off, default) or full (all of them off)",
+            "type": "string"
+          },
+          "since": {
+            "description": "the day the residence that counts began (residence permit, green card), YYYY-MM-DD; none: the first move",
+            "type": "string"
+          },
+          "stretch_max": {
+            "description": "custom: the most days away in a row, a longer absence breaking the residence (it counts again from the return), 0 for no limit",
+            "type": "integer"
+          },
+          "year_absent_max": {
+            "description": "custom: the most days away in any year of them, 0 for no limit",
+            "type": "integer"
+          },
+          "years": {
+            "description": "custom: in how many years",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "index",
+          "preset"
+        ],
+        "type": "object"
+      },
+      "name": "update_goal"
+    },
+    {
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Change a move"
+      },
+      "description": "Puts a move (by its id) in place of the one kept: give all its fields.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "arrived": {
+            "description": "the day arrived, YYYY-MM-DD, if not the day left (a night flight: the next day)",
+            "type": "string"
+          },
+          "departed": {
+            "description": "the day left, YYYY-MM-DD",
+            "type": "string"
+          },
+          "from": {
+            "description": "the country left: ISO 3166-1 alpha-2 code or name",
+            "type": "string"
+          },
+          "from_city": {
+            "description": "the city left, optional",
+            "type": "string"
+          },
+          "id": {
+            "description": "the move's id, as the list of moves gives it",
+            "type": "integer"
+          },
+          "note": {
+            "description": "a note, such as the flight number, optional",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "to": {
+            "description": "the country arrived in: ISO 3166-1 alpha-2 code or name",
+            "type": "string"
+          },
+          "to_city": {
+            "description": "the city arrived in, optional",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "departed",
+          "from",
+          "to"
+        ],
+        "type": "object"
+      },
+      "name": "update_move"
+    },
+    {
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Change the profile"
+      },
+      "description": "Changes the citizenships, the tax residence or its rule; what's left out stays.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "citizenships": {
+            "description": "all the user's citizenships, in place of those kept: ISO codes or names",
+            "items": {
+              "type": "string"
+            },
+            "type": [
+              "null",
+              "array"
+            ]
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "tax_residence": {
+            "description": "the country of tax residence (code or name), or none",
+            "type": "string"
+          },
+          "tax_rule": {
+            "description": "cy60 for Cyprus's 60-day rule, or usual",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "name": "update_profile"
+    },
+    {
+      "annotations": {
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false,
+        "readOnlyHint": false,
+        "title": "Change a visa"
+      },
+      "description": "Puts a visa in place of the one at its index.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "country": {
+            "description": "the country, ISO 3166-1 alpha-2 code or name, or SCHENGEN for a Schengen visa",
+            "type": "string"
+          },
+          "index": {
+            "description": "the visa's place in the profile's list, from 0",
+            "type": "integer"
+          },
+          "kind": {
+            "description": "its kind, such as C, D, work, student, optional",
+            "type": "string"
+          },
+          "person": {
+            "description": "another person's account open to the user, by id or name as the people open to the user give them; none for the user's own",
+            "type": "string"
+          },
+          "until": {
+            "description": "the last day it's valid, YYYY-MM-DD",
+            "type": "string"
+          }
+        },
+        "required": [
+          "index",
+          "country",
+          "until"
+        ],
+        "type": "object"
+      },
+      "name": "update_visa"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true,
+        "readOnlyHint": true,
+        "title": "Visa requirements"
+      },
+      "description": "What a passport needs to enter a country: visa free, visa on arrival, e-visa, eta, visa required, no admission or unclear, the days allowed and whether an official source confirms it. Keyed by country code.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "destination": {
+            "description": "one country to enter, code or name; none: all of them",
+            "type": "string"
+          },
+          "passport": {
+            "description": "the passport's country, code or name; none: the user's first citizenship",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "name": "visa_requirements"
+    }
+  ],
+  "ttlMs": 0
+}

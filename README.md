@@ -21,6 +21,12 @@ https://trawelpulse.com/mcp
 
 You sign in with Telegram in the assistant's own window, and nothing else is needed.
 
+## MCP integration documentation
+
+For platform integrators and reviewers: [MCP server reference](docs/mcp.md),
+including OAuth, all tool inputs and results, permissions, errors and limits.
+Exact input schemas and annotations: [tool schema snapshot](docs/mcp-tools.json).
+
 ## Connect
 
 | Assistant | How |
