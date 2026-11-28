@@ -8,7 +8,7 @@ tax residence, visas and citizenship goals. It calculates country day counts
 and progress from that history, renders account views, and supplies destination
 safety, entry-requirement and flight-search information.
 
-- Production MCP endpoint: **https://trawelpulse.com/v1/mcp** (the latest set of tools; see [Versions](#versions))
+- Production MCP endpoint: **https://trawelpulse.com/mcp** (and **https://trawelpulse.com/v1/mcp**, the latest set to any client; see [Versions](#versions))
 - Transport: **Streamable HTTP over HTTPS**, JSON-RPC 2.0
 - Authentication: **OAuth Authorization Code with PKCE S256**
 - Complete input schemas and annotations: [mcp-tools.json](mcp-tools.json)
@@ -43,12 +43,17 @@ One server, two addresses, each with its own set of tools:
 
 | Address | Set of tools | For |
 | --- | --- | --- |
-| `https://trawelpulse.com/v1/mcp` | The latest of 1.x (now 1.0.2, 32 tools). Later 1.x releases update it in place. | New connections, the plugin from 1.0.2, the website and the Telegram bot. |
-| `https://trawelpulse.com/mcp` | Pinned to 1.0.1 (27 tools), as submitted to the app directories still reviewing it. | Those submissions and connections made earlier. It moves to the latest set once those reviews are through. |
+| `https://trawelpulse.com/v1/mcp` | The latest of 1.x (now 1.0.2, 32 tools), to any client. Later 1.x releases update it in place. | The Claude Code plugin from 1.0.2; anyone who adds it by hand. |
+| `https://trawelpulse.com/mcp` | Pinned to 1.0.1 (27 tools), as submitted to the app directories still reviewing it; **OpenAI's clients (ChatGPT) get the latest set here**. | The website and the Telegram bot, ChatGPT's app (its address for good), Codex, the directories' submissions. It moves to the latest set for everyone once those reviews are through. |
 
 - `/v1/mcp` only adds to 1.0.1: no tool is removed or renamed, no input is
   removed or changes type, and no input becomes newly required. A client written
   for 1.0.1 works unchanged at `/v1/mcp`.
+- At `/mcp`, the server tells OpenAI's clients by their OAuth client: one that
+  sends people back to (or is described at) https on `chatgpt.com` or `openai.com`
+  gets the latest set. A sign-in only goes back to a client's own addresses, so
+  this can't be claimed by another client. A personal link (`/mcp/<key>`) has no
+  client to tell and gets the pinned set.
 - Both addresses use the same account, sign-in and tokens (see
   [Tokens](#tokens-scope-and-disconnecting)); switching address needs no new sign-in.
 - A breaking change would get a new address (`/v2/mcp`); 1.x stays at `/v1/mcp`.
@@ -67,14 +72,14 @@ Dedicated reviewer sign-in instructions are supplied privately on request.
 
 | Purpose | URL |
 | --- | --- |
-| MCP endpoint and resource | `https://trawelpulse.com/v1/mcp` (1.0.1: `https://trawelpulse.com/mcp`) |
-| Protected resource metadata | `https://trawelpulse.com/.well-known/oauth-protected-resource/v1/mcp` (1.0.1: `…/oauth-protected-resource/mcp`) |
+| MCP endpoint and resource | `https://trawelpulse.com/mcp`, or `https://trawelpulse.com/v1/mcp` for the latest set to any client |
+| Protected resource metadata | `https://trawelpulse.com/.well-known/oauth-protected-resource/mcp` (for `/v1/mcp`: `…/oauth-protected-resource/v1/mcp`) |
 | Authorization server metadata | `https://trawelpulse.com/.well-known/oauth-authorization-server` |
 | Authorization | `https://trawelpulse.com/oauth/authorize` |
 | Token exchange and refresh | `https://trawelpulse.com/oauth/token` |
 | Dynamic client registration | `https://trawelpulse.com/oauth/register` |
 
-An unauthenticated request to `/v1/mcp` (or `/mcp`) returns HTTP `401` with a
+An unauthenticated request to `/mcp` (or `/v1/mcp`) returns HTTP `401` with a
 `WWW-Authenticate: Bearer` challenge identifying that address's protected
 resource metadata, which names that address as the resource.
 Use discovery instead of assuming undocumented authentication endpoints.
@@ -86,7 +91,7 @@ Use discovery instead of assuming undocumented authentication endpoints.
 3. Start authorization with `response_type=code`, `client_id`, the registered
    `redirect_uri`, a fresh `state`, `code_challenge`,
    `code_challenge_method=S256`, and `scope=account`. If specifying `resource`,
-   use the address you connect to: `https://trawelpulse.com/v1/mcp` (or `/mcp`).
+   use the address you connect to: `https://trawelpulse.com/mcp` (or `/v1/mcp`).
 4. The user signs in and approves or declines. Validate the returned `state`
    and authorization-server issuer as appropriate for the client implementation.
 5. Exchange the code at `/oauth/token` using form encoding and

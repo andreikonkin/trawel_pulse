@@ -96,7 +96,7 @@
         }
       },
       "publication": {
-        "release_notes": "1.0.2: the skill covers the new tools: citizenship by residence programmes (list_citizenship_programs, get_citizenship_program, calculate_citizenship), personal limits of days abroad (set_travel_limit, travel_planning in get_days), switching years in the calendar view, and cards to share (show_card). The server is now https://trawelpulse.com/v1/mcp, the latest set of tools (the same sign-in and account)."
+        "release_notes": "1.0.2: the skill covers the new tools: citizenship by residence programmes (list_citizenship_programs, get_citizenship_program, calculate_citizenship), personal limits of days abroad (set_travel_limit, travel_planning in get_days), switching years in the calendar view, and cards to share (show_card)."
       }
     }
   }

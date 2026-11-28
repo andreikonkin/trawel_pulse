@@ -19,12 +19,12 @@ Connect a client that supports Streamable HTTP and OAuth with PKCE to use:
 Compatible MCP clients connect to one address:
 
 ```
-https://trawelpulse.com/v1/mcp
+https://trawelpulse.com/mcp
 ```
 
 You sign in with Google or Telegram on trawelpulse.com through the client's OAuth flow, then approve access to your travel account.
 
-`https://trawelpulse.com/mcp` keeps the set of tools of version 1.0.1, as submitted to the app directories still reviewing it, and moves to the latest set once they are through. Both addresses are one server: the same account, sign-in and tokens. See [versions](docs/mcp.md#versions).
+While app directories still review version 1.0.1, `/mcp` gives ChatGPT the latest set of tools and other clients 1.0.1's; `https://trawelpulse.com/v1/mcp` gives every client the latest set (the Claude Code plugin uses it). Once those reviews are through, `/mcp` has the latest set for everyone. Both addresses are one server: the same account, sign-in and tokens. See [versions](docs/mcp.md#versions).
 
 ## MCP integration documentation
 
@@ -59,9 +59,9 @@ The assistant sees and changes your moves, visas, goals and limits, and makes a 
 
 ## Подключение (по-русски)
 
-Адрес MCP-сервера: `https://trawelpulse.com/v1/mcp`. Подходит клиентам с поддержкой Streamable HTTP и OAuth с PKCE. Вход — через Google или Telegram на сайте, затем разрешение доступа ассистенту.
+Адрес MCP-сервера: `https://trawelpulse.com/mcp`. Подходит клиентам с поддержкой Streamable HTTP и OAuth с PKCE. Вход — через Google или Telegram на сайте, затем разрешение доступа ассистенту.
 
-Прежний адрес `https://trawelpulse.com/mcp` пока отдаёт набор инструментов версии 1.0.1 — тот, что проверяют каталоги приложений; после их проверок он перейдёт на последний набор. Сервер, кабинет и вход у обоих адресов общие.
+Пока каталоги приложений проверяют версию 1.0.1, `/mcp` отдаёт ChatGPT последний набор инструментов, а остальным клиентам — набор 1.0.1; `https://trawelpulse.com/v1/mcp` отдаёт последний набор любому клиенту (на него ведёт плагин для Claude Code). После проверок `/mcp` перейдёт на последний набор для всех. Сервер, кабинет и вход у обоих адресов общие.
 
 - **Claude:** Настройки → Коннекторы → Добавить свой коннектор → вставьте адрес.
 - **ChatGPT:** Plugins → + → Add custom MCP server → вставьте адрес, вход OAuth → Create as a plugin.
