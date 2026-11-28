@@ -1,6 +1,6 @@
 {
   "name": "trawel-pulse",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Your travel account in Claude: moves, days by country, tax residence, citizenship goals and visas, plus travel safety, visa rules, emergency numbers and cheap flights.",
   "author": {
     "name": "Andrei Konkin",
@@ -11,6 +11,7 @@
   "license": "MIT",
   "keywords": [
     "travel",
+    "days by country",
     "tax residence",
     "citizenship",
     "visas",

@@ -8,9 +8,10 @@ Connect a client that supports Streamable HTTP and OAuth with PKCE to use:
 
 - **Your travel account.** Add trips from tickets, booking emails or a bank statement and see:
   - the days by country, as each country counts them;
-  - your tax residence and how long more you may stay;
-  - your progress to citizenship;
-  - your visas.
+  - your tax residence and how long more you may stay, and your own limits of days abroad;
+  - your progress to citizenship by residence, and what any of 66 programmes in 44 countries asks and when you could apply;
+  - your visas;
+  - cards of your year, a goal or a calendar to share.
 
   The account is the same as on trawelpulse.com. Clients with MCP Apps support can show the calendar, map and charts in the chat; other clients can use the text and structured results.
 - **Travel questions.** A country's safety level, visa rules for your passport, emergency numbers, natural disasters, recent changes and the cheapest flights.
@@ -18,10 +19,12 @@ Connect a client that supports Streamable HTTP and OAuth with PKCE to use:
 Compatible MCP clients connect to one address:
 
 ```
-https://trawelpulse.com/mcp
+https://trawelpulse.com/v1/mcp
 ```
 
-You sign in with Telegram on trawelpulse.com through the client's OAuth flow, then approve access to your travel account.
+You sign in with Google or Telegram on trawelpulse.com through the client's OAuth flow, then approve access to your travel account.
+
+`https://trawelpulse.com/mcp` keeps the set of tools of version 1.0.1, as submitted to the app directories still reviewing it, and moves to the latest set once they are through. Both addresses are one server: the same account, sign-in and tokens. See [versions](docs/mcp.md#versions).
 
 ## MCP integration documentation
 
@@ -50,13 +53,15 @@ Then just ask:
 - "How many more days may I stay in the UK this year?";
 - "When can I apply for Cypriot citizenship?"
 
-The assistant sees and changes your moves, visas and goals, but it can't delete your account. You can turn assistants off at any time in the account's settings on [trawelpulse.com](https://trawelpulse.com/en/me).
+The assistant sees and changes your moves, visas, goals and limits, and makes a public link to a card when you ask (you can turn it off in the account), but it can't delete your account. You can turn assistants off at any time in the account's settings on [trawelpulse.com](https://trawelpulse.com/en/me).
 
 [Privacy policy](https://trawelpulse.com/en/privacy) · [Terms](https://trawelpulse.com/en/terms) · [Support](https://trawelpulse.com/en/support) · support@trawelpulse.com
 
 ## Подключение (по-русски)
 
-Адрес MCP-сервера: `https://trawelpulse.com/mcp`. Подходит клиентам с поддержкой Streamable HTTP и OAuth с PKCE. Вход — через Telegram на сайте, затем разрешение доступа ассистенту.
+Адрес MCP-сервера: `https://trawelpulse.com/v1/mcp`. Подходит клиентам с поддержкой Streamable HTTP и OAuth с PKCE. Вход — через Google или Telegram на сайте, затем разрешение доступа ассистенту.
+
+Прежний адрес `https://trawelpulse.com/mcp` пока отдаёт набор инструментов версии 1.0.1 — тот, что проверяют каталоги приложений; после их проверок он перейдёт на последний набор. Сервер, кабинет и вход у обоих адресов общие.
 
 - **Claude:** Настройки → Коннекторы → Добавить свой коннектор → вставьте адрес.
 - **ChatGPT:** Plugins → + → Add custom MCP server → вставьте адрес, вход OAuth → Create as a plugin.
