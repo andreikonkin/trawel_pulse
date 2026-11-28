@@ -24,7 +24,7 @@ https://trawelpulse.com/mcp
 
 You sign in with Google or Telegram on trawelpulse.com through the client's OAuth flow, then approve access to your travel account.
 
-While app directories still review version 1.0.1, `/mcp` gives ChatGPT the latest set of tools and other clients 1.0.1's; `https://trawelpulse.com/v1/mcp` gives every client the latest set (the Claude Code plugin uses it). Once those reviews are through, `/mcp` has the latest set for everyone. Both addresses are one server: the same account, sign-in and tokens. See [versions](docs/mcp.md#versions).
+The package version does not change the server URL: every client uses `/mcp`. While other app directories review version 1.0.1, OpenAI OAuth clients receive the latest tool set and other clients retain the reviewed set. ChatGPT tool availability follows OpenAI's MCP scans. See [versions](docs/mcp.md#versions).
 
 ## MCP integration documentation
 
@@ -37,7 +37,7 @@ Exact input schemas and annotations: [tool schema snapshot](docs/mcp-tools.json)
 | Assistant | How |
 | --- | --- |
 | **Claude** (web, desktop, mobile) | Settings → Connectors → Add custom connector → paste the address → Connect |
-| **ChatGPT** | Plugins → + → Add custom MCP server → paste the address, OAuth → Create as a plugin |
+| **ChatGPT** | [Open Trawel Pulse](https://chatgpt.com/plugins/plugin_asdk_app_6af3c168f6ec81919e98d0d0c32a22ba) and connect your account through OAuth |
 | **Claude Code** | `/plugin marketplace add andreikonkin/trawel_pulse`, then `/plugin install trawel-pulse@trawel-pulse` |
 | **Codex** | `codex plugin marketplace add andreikonkin/trawel_pulse` |
 | **Other MCP clients** | Add the endpoint above as a remote Streamable HTTP server and use OAuth with PKCE. See the [integration reference](docs/mcp.md) for discovery and client-registration requirements. |
@@ -61,10 +61,10 @@ The assistant sees and changes your moves, visas, goals and limits, and makes a 
 
 Адрес MCP-сервера: `https://trawelpulse.com/mcp`. Подходит клиентам с поддержкой Streamable HTTP и OAuth с PKCE. Вход — через Google или Telegram на сайте, затем разрешение доступа ассистенту.
 
-Пока каталоги приложений проверяют версию 1.0.1, `/mcp` отдаёт ChatGPT последний набор инструментов, а остальным клиентам — набор 1.0.1; `https://trawelpulse.com/v1/mcp` отдаёт последний набор любому клиенту (на него ведёт плагин для Claude Code). После проверок `/mcp` перейдёт на последний набор для всех. Сервер, кабинет и вход у обоих адресов общие.
+Все подключения используют один адрес `/mcp`, независимо от версии пакета. Пока другие каталоги проверяют 1.0.1, клиенты OpenAI с OAuth получают последний набор инструментов, остальные — набор на проверке. Доступность новых инструментов ChatGPT зависит от сканирования MCP в OpenAI.
 
 - **Claude:** Настройки → Коннекторы → Добавить свой коннектор → вставьте адрес.
-- **ChatGPT:** Plugins → + → Add custom MCP server → вставьте адрес, вход OAuth → Create as a plugin.
+- **ChatGPT:** [откройте плагин Trawel Pulse](https://chatgpt.com/plugins/plugin_asdk_app_6af3c168f6ec81919e98d0d0c32a22ba) и подключите кабинет через OAuth.
 - **Claude Code:** `/plugin marketplace add andreikonkin/trawel_pulse`, затем `/plugin install trawel-pulse@trawel-pulse`.
 - **Другие MCP-клиенты:** добавьте адрес как удалённый сервер Streamable HTTP и выберите OAuth. Требования к подключению — в [справочнике MCP](docs/mcp.md).
 

@@ -8,7 +8,7 @@ tax residence, visas and citizenship goals. It calculates country day counts
 and progress from that history, renders account views, and supplies destination
 safety, entry-requirement and flight-search information.
 
-- Production MCP endpoint: **https://trawelpulse.com/mcp** (and **https://trawelpulse.com/v1/mcp**, the latest set to any client; see [Versions](#versions))
+- Production MCP endpoint: **https://trawelpulse.com/mcp** (all clients; see [Versions](#versions))
 - Transport: **Streamable HTTP over HTTPS**, JSON-RPC 2.0
 - Authentication: **OAuth Authorization Code with PKCE S256**
 - Complete input schemas and annotations: [mcp-tools.json](mcp-tools.json)
@@ -16,8 +16,8 @@ safety, entry-requirement and flight-search information.
 - [Privacy](https://trawelpulse.com/en/privacy) · [Terms](https://trawelpulse.com/en/terms) · [Support](https://trawelpulse.com/en/support)
 - Developer, integration and reviewer contact: **support@trawelpulse.com**
 
-The JSON file is a snapshot exported from `tools/list` at `/v1/mcp` on a local instance of
-the production server code, using a synthetic account. It contains public tool
+The JSON file is a snapshot of the latest tool set from `tools/list`, exported
+from the production server code using a synthetic account. It contains public tool
 definitions, not account data or credentials. The authenticated live server's
 `tools/list` response is authoritative for the deployed version. Output shapes
 are described below; the current tools do not advertise formal `outputSchema`
@@ -39,26 +39,22 @@ contracts. Accept omitted optional fields and empty collections represented as
 
 ## Versions
 
-One server, two addresses, each with its own set of tools:
+One server and one public address: **https://trawelpulse.com/mcp**. Both plugin
+manifests use it; package version 1.0.2 does not introduce a different URL.
 
-| Address | Set of tools | For |
-| --- | --- | --- |
-| `https://trawelpulse.com/v1/mcp` | The latest of 1.x (now 1.0.2, 32 tools), to any client. Later 1.x releases update it in place. | The Claude Code plugin from 1.0.2; anyone who adds it by hand. |
-| `https://trawelpulse.com/mcp` | Pinned to 1.0.1 (27 tools), as submitted to the app directories still reviewing it; **OpenAI's clients (ChatGPT) get the latest set here**. | The website and the Telegram bot, ChatGPT's app (its address for good), Codex, the directories' submissions. It moves to the latest set for everyone once those reviews are through. |
+- The latest tool set has 32 tools. It preserves existing tool names and input
+  types and adds no newly required inputs to existing tools.
+- OpenAI OAuth clients receive the latest set at `/mcp`; ChatGPT exposes new
+  tools after the platform's MCP checks pass.
+- Other clients and personal links retain the 1.0.1 set (27 tools) while those
+  directory reviews remain in progress. Once complete, the server can switch
+  that set to the latest without changing connection URLs.
+- The server identifies OpenAI clients from their registered OAuth callbacks
+  or client metadata on HTTPS OpenAI domains, rather than a caller's name.
 
-- `/v1/mcp` only adds to 1.0.1: no tool is removed or renamed, no input is
-  removed or changes type, and no input becomes newly required. A client written
-  for 1.0.1 works unchanged at `/v1/mcp`.
-- At `/mcp`, the server tells OpenAI's clients by their OAuth client: one that
-  sends people back to (or is described at) https on `chatgpt.com` or `openai.com`
-  gets the latest set. A sign-in only goes back to a client's own addresses, so
-  this can't be claimed by another client. A personal link (`/mcp/<key>`) has no
-  client to tell and gets the pinned set.
-- Both addresses use the same account, sign-in and tokens (see
-  [Tokens](#tokens-scope-and-disconnecting)); switching address needs no new sign-in.
-- A breaking change would get a new address (`/v2/mcp`); 1.x stays at `/v1/mcp`.
-
-The rest of this reference describes `/v1/mcp`. Where 1.0.1 differs, it says so.
+The rest of this reference describes the latest tool set. Differences from
+1.0.1 are stated where applicable. Use `tools/list` to discover the set available
+to your authenticated client.
 
 ## Connection and authentication
 
@@ -72,14 +68,14 @@ Dedicated reviewer sign-in instructions are supplied privately on request.
 
 | Purpose | URL |
 | --- | --- |
-| MCP endpoint and resource | `https://trawelpulse.com/mcp`, or `https://trawelpulse.com/v1/mcp` for the latest set to any client |
-| Protected resource metadata | `https://trawelpulse.com/.well-known/oauth-protected-resource/mcp` (for `/v1/mcp`: `…/oauth-protected-resource/v1/mcp`) |
+| MCP endpoint and resource | `https://trawelpulse.com/mcp` |
+| Protected resource metadata | `https://trawelpulse.com/.well-known/oauth-protected-resource/mcp` |
 | Authorization server metadata | `https://trawelpulse.com/.well-known/oauth-authorization-server` |
 | Authorization | `https://trawelpulse.com/oauth/authorize` |
 | Token exchange and refresh | `https://trawelpulse.com/oauth/token` |
 | Dynamic client registration | `https://trawelpulse.com/oauth/register` |
 
-An unauthenticated request to `/mcp` (or `/v1/mcp`) returns HTTP `401` with a
+An unauthenticated request to `/mcp` returns HTTP `401` with a
 `WWW-Authenticate: Bearer` challenge identifying that address's protected
 resource metadata, which names that address as the resource.
 Use discovery instead of assuming undocumented authentication endpoints.
@@ -91,7 +87,7 @@ Use discovery instead of assuming undocumented authentication endpoints.
 3. Start authorization with `response_type=code`, `client_id`, the registered
    `redirect_uri`, a fresh `state`, `code_challenge`,
    `code_challenge_method=S256`, and `scope=account`. If specifying `resource`,
-   use the address you connect to: `https://trawelpulse.com/mcp` (or `/v1/mcp`).
+   use `https://trawelpulse.com/mcp`.
 4. The user signs in and approves or declines. Validate the returned `state`
    and authorization-server issuer as appropriate for the client implementation.
 5. Exchange the code at `/oauth/token` using form encoding and
@@ -119,9 +115,8 @@ use their own actual callback URI, not one copied from another integration.
   Save the newly returned access and refresh tokens together; do not keep using
   the previous refresh token. Refresh does not require another interactive login
   while the grant remains valid.
-- Tokens are bound to the MCP resource. `/v1/mcp` and `/mcp` are one resource, so
-  a token is valid at both. Any other explicitly supplied `resource` is rejected
-  with `invalid_target`.
+- Tokens are bound to the sole MCP resource, `https://trawelpulse.com/mcp`.
+  Any other explicitly supplied `resource` is rejected with `invalid_target`.
 - `account` is the **single current OAuth scope**. It authorizes both read and
   write account tools; separate server-enforced read-only grants do not currently
   exist. A client can limit the tools it enables, but that does not narrow the
@@ -152,8 +147,8 @@ forwarding only the JSON body can fail protocol validation.
 
 ## Permissions and side effects
 
-The connector exposes **32 tools** at `/v1/mcp`: 20 reads and 12 writes (1.0.1 at
-`/mcp`: 27 tools, 17 reads and 10 writes). Each tool's exact annotations are
+The latest tool set exposes **32 tools** at `/mcp`: 20 reads and 12 writes
+(the pinned 1.0.1 set has 27 tools, 17 reads and 10 writes). Each tool's exact annotations are
 included in [mcp-tools.json](mcp-tools.json).
 
 | Classification | Tools | Current annotations / behavior |
@@ -244,7 +239,7 @@ visa; omitted `kind` becomes empty.
 | Field | Type | Meaning |
 | --- | --- | --- |
 | `preset` | string, required | A citizenship programme's ID, as `list_citizenship_programs` lists them, or `custom`. At `/mcp` (1.0.1): the identifiers its `add_goal` schema description lists. |
-| `dates` | object, optional | `/v1/mcp` only. Qualifying dates as `YYYY-MM-DD`, keyed by the programme's `date_inputs` (`marriage_since`, `spouse_citizen_since`, `cohabitation_since`, `permanent_since`). A date the programme doesn't take is rejected; without a required one, the goal's application forecast stays pending. |
+| `dates` | object, optional | Latest tool set only. Qualifying dates as `YYYY-MM-DD`, keyed by the programme's `date_inputs` (`marriage_since`, `spouse_citizen_since`, `cohabitation_since`, `permanent_since`). A date the programme doesn't take is rejected; without a required one, the goal's application forecast stays pending. |
 | `since` | string, optional | Residence start date; omitted means the first move is used as the starting point. |
 | `country` | string, optional | Required for `preset=custom`. |
 | `days`, `years` | integers, optional | Required for a custom goal: target days and the assessment window in years. |
@@ -447,7 +442,7 @@ Always check `result.isError` as well as HTTP status and a JSON-RPC `error`.
 | --- | --- |
 | `show_goals`, `show_tax_residence`, `show_days`, `show_visited_countries` | `ui://trawelpulse/account.html` |
 | `show_calendar` | `ui://trawelpulse/calendar.html` |
-| `show_card` | `ui://trawelpulse/card.html` (`/v1/mcp` only) |
+| `show_card` | `ui://trawelpulse/card.html` (latest tool set only) |
 
 Use `resources/list` and `resources/read` for resources. Each has MIME type
 `text/html;profile=mcp-app`. View tools declare `_meta.ui.resourceUri` and also
