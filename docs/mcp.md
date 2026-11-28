@@ -156,7 +156,8 @@ included in [mcp-tools.json](mcp-tools.json).
 | Read, account data | `get_profile`, `list_moves`, `get_days`, `list_people`, `show_goals`, `show_tax_residence`, `show_days`, `show_visited_countries`, `show_calendar` | `readOnlyHint=true`, `destructiveHint=false`, `openWorldHint=false` |
 | Read, citizenship programmes (no account data) | `list_citizenship_programs`, `get_citizenship_program`, `calculate_citizenship` | `readOnlyHint=true`, `destructiveHint=false`, `openWorldHint=false` |
 | Read, destination/external information | `country_safety`, `countries_safety`, `visa_requirements`, `emergency_numbers`, `natural_disasters`, `recent_changes`, `find_city`, `cheapest_flights` | `readOnlyHint=true`, `destructiveHint=false`, `openWorldHint=true` |
-| Write, additive | `add_moves`, `add_visa`, `add_goal`, `show_card` | `readOnlyHint=false`, `destructiveHint=false`, `openWorldHint=false`; persists new account records (`show_card`: a public link to a card, or the one already there) |
+| Write, additive | `add_moves`, `add_visa`, `add_goal` | `readOnlyHint=false`, `destructiveHint=false`, `openWorldHint=false`; persists new account records |
+| Write, public card sharing | `show_card` | `readOnlyHint=false`, `destructiveHint=false`, `openWorldHint=true`; creates or reuses a public card link that anyone holding it can open |
 | Write, replacement/deletion | `update_profile`, `update_move`, `delete_move`, `update_visa`, `remove_visa`, `update_goal`, `remove_goal`, `set_travel_limit` | `readOnlyHint=false`, `destructiveHint=true`, `openWorldHint=false`; overwrites or removes stored data |
 
 All tools currently advertise `idempotentHint=false`. Add operations can create
@@ -173,8 +174,9 @@ sensitive-write policy must not be bypassed by the additive tools' annotations.
 
 `show_card` makes (or reuses) the account's public link to a card, as the
 website's Share button does: anyone with the link sees the card, which shows
-countries, days and a goal's progress, never dates, notes or names. It is a link
-to a picture, not to the account; the user turns it off in the account. It has
+travel summaries, daily country locations for calendars, or estimated application
+dates for goals. It does not expose account notes or names. The link opens the
+selected card; the user turns it off in the account. It has
 no `person` input: it acts on the signed-in user's own account only, and a call
 with `person` is rejected as an unexpected argument.
 
@@ -512,9 +514,11 @@ from infrastructure or providers. Contact support for sustained high-volume use.
   the website, with a 28-day restoration period; MCP access is blocked while an
   account is marked for deletion. Refer to the [privacy policy](https://trawelpulse.com/en/privacy)
   for the published data-handling terms.
-- A card's public link (`show_card`, or Share on the website) shows countries,
-  days and a goal's progress to anyone with it; never dates, notes or names. The
-  picture is drawn by trawelpulse.com. The owner turns the link off in the account.
+- A card's public link (`show_card`, or Share on the website) shows the selected
+  card to anyone with it: travel summaries, daily country locations for calendars,
+  or estimated application dates for goals. It does not expose account notes or
+  names. The picture is drawn by trawelpulse.com. The owner turns the link off in
+  the account.
 - Advisory data, entry requirements and tax/immigration rules can change.
   Calculations are informational estimates from supported rules and the supplied
   history, not professional advice or an official residence/citizenship decision.

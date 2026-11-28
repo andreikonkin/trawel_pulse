@@ -724,11 +724,11 @@
       "annotations": {
         "destructiveHint": false,
         "idempotentHint": false,
-        "openWorldHint": false,
+        "openWorldHint": true,
         "readOnlyHint": false,
         "title": "A card to share"
       },
-      "description": "Shows one of the account's pictures to share, as the account's Share makes them: a year's travels (year) or all the years' (all), a goal of citizenship's progress (goal), or a year's calendar (calendar); for stories and posts. Gives the card's public link (url; the one there is, or a new one) and its pictures (image: a post, story: for stories). Anyone with the link sees the card: countries and days, no dates, notes or names; the user turns it off in the account. Only the user's own account.",
+      "description": "Creates or reuses a public Trawel Pulse link to the user's travel card and displays it: a travel year (year), all travel years (all), citizenship goal progress (goal), or a year's day-by-country calendar (calendar). Anyone with the link can view the selected card, including travel summaries, daily country locations for calendars, or estimated application dates for goals. Returns url and pictures image (post) and story. Persists the share link in the user's own account; the user can revoke it in account settings.",
       "inputSchema": {
         "type": "object",
         "properties": {
