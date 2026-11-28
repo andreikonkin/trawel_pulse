@@ -44,13 +44,17 @@ manifests use it; package version 1.0.2 does not introduce a different URL.
 
 - The latest tool set has 32 tools. It preserves existing tool names and input
   types and adds no newly required inputs to existing tools.
-- OpenAI OAuth clients receive the latest set at `/mcp`; ChatGPT exposes new
-  tools after the platform's MCP checks pass.
+- OpenAI and Claude OAuth clients receive the latest set at `/mcp`; ChatGPT
+  exposes new tools after the platform's MCP checks pass. Claude's submission
+  tool names and stored reviewer copy are refreshed separately in its portal.
 - Other clients and personal links retain the 1.0.1 set (27 tools) while those
   directory reviews remain in progress. Once complete, the server can switch
   that set to the latest without changing connection URLs.
-- The server identifies OpenAI clients from their registered OAuth callbacks
-  or client metadata on HTTPS OpenAI domains, rather than a caller's name.
+- The server selects this set by HTTPS registered OAuth callback or CIMD host
+  on `chatgpt.com`, `openai.com`, `claude.ai` or `anthropic.com`, including
+  subdomains, rather than a caller's name. Claude Code's loopback callback is
+  supported through its CIMD on `claude.ai`. This selects the tool version;
+  it does not grant account permissions.
 
 The rest of this reference describes the latest tool set. Differences from
 1.0.1 are stated where applicable. Use `tools/list` to discover the set available
@@ -240,7 +244,7 @@ visa; omitted `kind` becomes empty.
 
 | Field | Type | Meaning |
 | --- | --- | --- |
-| `preset` | string, required | A citizenship programme's ID, as `list_citizenship_programs` lists them, or `custom`. At `/mcp` (1.0.1): the identifiers its `add_goal` schema description lists. |
+| `preset` | string, required | A citizenship programme's ID, as `list_citizenship_programs` lists them, or `custom`. In the pinned 1.0.1 set: the identifiers its `add_goal` schema description lists. |
 | `dates` | object, optional | Latest tool set only. Qualifying dates as `YYYY-MM-DD`, keyed by the programme's `date_inputs` (`marriage_since`, `spouse_citizen_since`, `cohabitation_since`, `permanent_since`). A date the programme doesn't take is rejected; without a required one, the goal's application forecast stays pending. |
 | `since` | string, optional | Residence start date; omitted means the first move is used as the starting point. |
 | `country` | string, optional | Required for `preset=custom`. |
@@ -273,7 +277,7 @@ Input goal absence field names differ from output profile names:
 | `show_tax_residence` | `person?`, `lang?`, `year?` | `view="residence"`, yearly counts, supported residence tests, remaining tax-residence allowances and visa/stay estimates. |
 | `show_days` | `person?`, `lang?`, `year?` | `view="days"`, yearly counts and history start. `year` selects the initial view; the payload can include all years. |
 | `show_visited_countries` | `person?`, `lang?`, `year?` | `view="visited"`, visited country codes, accumulated stay days, totals and names for the map. |
-| `show_calendar` | `person?`, `lang?`, `year?`, `layout?` | `view="calendar"`, selected year, available years, `today`, date `runs`, country totals, display `order`, names, links, `person` and `layout`. `layout` is `year` (default: the year at a glance, a row a month) or `months` (each month's days in a grid). The view switches years by calling `show_calendar` itself. At `/mcp` (1.0.1) there is no `layout`. |
+| `show_calendar` | `person?`, `lang?`, `year?`, `layout?` | `view="calendar"`, selected year, available years, `today`, date `runs`, country totals, display `order`, names, links, `person` and `layout`. `layout` is `year` (default: the year at a glance, a row a month) or `months` (each month's days in a grid). The view switches years by calling `show_calendar` itself. In the pinned 1.0.1 set there is no `layout`. |
 
 ### Citizenship programmes
 

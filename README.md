@@ -24,7 +24,7 @@ https://trawelpulse.com/mcp
 
 You sign in with Google or Telegram on trawelpulse.com through the client's OAuth flow, then approve access to your travel account.
 
-The package version does not change the server URL: every client uses `/mcp`. While other app directories review version 1.0.1, OpenAI OAuth clients receive the latest tool set and other clients retain the reviewed set. ChatGPT tool availability follows OpenAI's MCP scans. See [versions](docs/mcp.md#versions).
+The package version does not change the server URL: every client uses `/mcp`. OpenAI and Claude OAuth clients receive the latest tool set (32 tools), including Claude Code identified by its Client ID Metadata Document. Other clients and personal links retain version 1.0.1 while their directory reviews continue. ChatGPT tool availability follows OpenAI's MCP scans; Claude's submission tool list and reviewer copy are refreshed separately in its developer portal. See [versions](docs/mcp.md#versions).
 
 ## MCP integration documentation
 
@@ -61,7 +61,7 @@ The assistant sees and changes your moves, visas, goals and limits, and makes a 
 
 Адрес MCP-сервера: `https://trawelpulse.com/mcp`. Подходит клиентам с поддержкой Streamable HTTP и OAuth с PKCE. Вход — через Google или Telegram на сайте, затем разрешение доступа ассистенту.
 
-Все подключения используют один адрес `/mcp`, независимо от версии пакета. Пока другие каталоги проверяют 1.0.1, клиенты OpenAI с OAuth получают последний набор инструментов, остальные — набор на проверке. Доступность новых инструментов ChatGPT зависит от сканирования MCP в OpenAI.
+Все подключения используют один адрес `/mcp`, независимо от версии пакета. Клиенты OpenAI и Claude с OAuth получают последний набор из 32 инструментов; Claude Code определяется по документу клиента CIMD. Остальные клиенты и личные ссылки сохраняют 1.0.1, пока идут их проверки. Доступность новых инструментов ChatGPT зависит от сканирования MCP в OpenAI. В заявке Claude отдельно обновляются список инструментов и копия сервера для ревьюеров.
 
 - **Claude:** Настройки → Коннекторы → Добавить свой коннектор → вставьте адрес.
 - **ChatGPT:** [откройте плагин Trawel Pulse](https://chatgpt.com/plugins/plugin_asdk_app_6af3c168f6ec81919e98d0d0c32a22ba) и подключите кабинет через OAuth.
